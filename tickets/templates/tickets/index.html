@@ -36,10 +36,10 @@
                     <a href="{{ ticket.link }}" target="_blank">{{ ticket.title }}</a>
                 </td>
                 <td>{{ ticket.commentCount }}</td>
-                <td>{{ ticket.likecount }}</td>
-                <td>{{ ticket.topic }}</td>
+                <td>{{ ticket.likeCount }}</td>
+                <td>{{ ticket.topics }}</td>
 
-                <td><img src={{ ticket.media }} style="width:100px; heigh:80px;" /></td>
+                <td><img src={{ ticket.img }} style="width:100px; heigh:80px;" /></td>
 
             </tr>
             {% endfor %}

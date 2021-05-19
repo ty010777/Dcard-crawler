@@ -4,29 +4,17 @@ from .scrapers import Dcard
 
 def index(request):
 
-    dcard = Dcard(request.POST.get("kanban_name"))
+    forums = Dcard.fetch_forums()
+    toalias = {forum['name'] : forum['alias'] for forum in forums}
+    alias = toalias.get(request.POST.get("kanban_name"))
 
-    context = {
-        "tickets": dcard.scrape(dcard.catch_kanban())
-    }
+    context = {}
+    if alias:
+        # posts = Dcard.fetch_posts(alias)
+
+        context['tickets'] = Dcard.fetch_posts(alias)
 
     return render(request, "tickets/index.html", context)
 
 
-
-def catch(request):
-
-    dcard = Dcard(request.POST.get("kanban_name"))
-
-
-    A = WordCloud(dcard.scrape(dcard.catch_article()))
-
-    context = {
-
-        "articles":A
-
-    }
-
-
-    return render(request, "tickets/WordCloud.html", context)
 
