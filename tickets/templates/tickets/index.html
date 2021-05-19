@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <form action="" method="Post">
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="form-group col-11">
+                <input class="form-control" name="kanban_name" placeholder="請輸入看版名稱">
+            </div>
+            <div class="form-group col-1">
+                <input class="btn btn-dark" type="submit" value="查詢">
+                <br />
+            </div>
+
+        </div>
+    </form>
+    <p><img src="/static/images/寵物效果圖.png" alt ="我的眼睛看不到"></p>
+
+    <table class="table table-hover">
+        {% comment %} <p>你正處{{tickets[0].Current_Kanban})}}版</p> {% endcomment %}
+        <thead>
+            <tr>
+                <th>標題</th>
+                {% comment %} <th>超連結</th> {% endcomment %}
+                <th>按讚數</th>
+                <th>留言數</th>
+                <th>標籤</th>
+                <th>縮圖</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ticket in tickets %}
+            <tr>
+                <td>
+                    <a href="{{ ticket.link }}" target="_blank">{{ ticket.title }}</a>
+                </td>
+                <td>{{ ticket.commentCount }}</td>
+                <td>{{ ticket.likecount }}</td>
+                <td>{{ ticket.topic }}</td>
+
+                <td><img src={{ ticket.media }} style="width:100px; heigh:80px;" /></td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
