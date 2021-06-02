@@ -20,7 +20,7 @@ class Dcard:
         if not forum:  # 如果名稱非空值
             raise TypeError("forum is required")
 
-        url = f'https://www.dcard.tw/service/api/v2/forums/{forum}/posts?popular=true&limit=30'
+        url = f'https://www.dcard.tw/service/api/v2/forums/{forum}/posts?popular=true&limit=5'
 
         posts = requests.get(url).json()
 
