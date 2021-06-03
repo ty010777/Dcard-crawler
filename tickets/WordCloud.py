@@ -18,15 +18,14 @@ def getFrequencyDictForText(post):
     freq = multidict.MultiDict()
     tmpDict = {}
 
-    r1 = '[-a-zA-Z0-9\s./:：︰﹕;<=>?@，。?★、…⋯【】（）﹙﹚《》「」？“”‘’！[\\]^_`{|}~～﹋,’!"#$%&\'()*+]+'
-    post = re.sub(r1,'',post)
+    r1 = r'[-\s\]\'a-zA-Z0-9!\"#$%&()*+,./:;<=>?@[^_`{|}~‘’’“”…⋯★、。《》「」【】︰﹋﹕﹙﹚！（），：？～]+'
+    post = re.sub(r1,'，',post)
     # print()
     for text in jieba.cut(post):
         text = text.lower()
         # print("text = " + text )
         # print("len(text) = "+ str(len(text)))
         if (text in stopwords) or (len(text) == 1):
-
             continue
         freq[text] = freq.get(text, 0) + 1
     # print({i : k for i , k in freq.items() })
