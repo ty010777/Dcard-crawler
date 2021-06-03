@@ -18,18 +18,18 @@ def getFrequencyDictForText(post):
     freq = multidict.MultiDict()
     tmpDict = {}
 
-    r1 = '[-a-zA-Z0-9\s./:：︰﹕;<=>?@，。?★、…⋯【】（）﹙﹚《》「」？“”‘’！[\\]^_`{|}~～﹋, ’!"#$%&\'()*+]+'
-    post = re.sub(r1,'，',post)
-
+    r1 = '[-a-zA-Z0-9\s./:：︰﹕;<=>?@，。?★、…⋯【】（）﹙﹚《》「」？“”‘’！[\\]^_`{|}~～﹋,’!"#$%&\'()*+]+'
+    post = re.sub(r1,'',post)
+    # print()
     for text in jieba.cut(post):
         text = text.lower()
-        print("text = " + text )
-        print("len(text) = "+ str(len(text)))
+        # print("text = " + text )
+        # print("len(text) = "+ str(len(text)))
         if (text in stopwords) or (len(text) == 1):
 
             continue
         freq[text] = freq.get(text, 0) + 1
-    print({i : k for i , k in freq.items() })
+    # print({i : k for i , k in freq.items() })
     return freq
 
 def makeImage(filename,text):
@@ -51,8 +51,8 @@ def makeImage(filename,text):
     wc.to_file(os.path.join(d,f"./static/images/wordcloud/{filename}.png"))
 
 if __name__ == "__main__":
-    forums = [{'alias':'relationship'}]
-    # forums = Dcard.fetch_forums()
+    # forums = [{'alias':'relationship'}]
+    forums = Dcard.fetch_forums()
     for forum in forums:
         try:
             posts = Dcard.fetch_posts(forum["alias"])
@@ -69,5 +69,5 @@ if __name__ == "__main__":
             makeImage(forum["alias"],getFrequencyDictForText('。'.join(tmp)))
         except Exception as e:
             print(e)
-        break
+
 
