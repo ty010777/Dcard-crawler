@@ -13,6 +13,7 @@ def index(request):
         # posts = Dcard.fetch_posts(alias)
 
         context['tickets'] = Dcard.fetch_posts(alias)
+        # print(context['tickets'])
 
     return render(request, "tickets/index.html", context)
 

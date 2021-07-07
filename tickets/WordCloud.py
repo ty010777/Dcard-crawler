@@ -18,8 +18,9 @@ def getFrequencyDictForText(post):
     freq = multidict.MultiDict()
     tmpDict = {}
 
-    r1 = r'[-\s\]\'a-zA-Z0-9!\"#$%&()*+,./:;<=>?@[^_`{|}~‘’’“”…⋯★、。《》「」【】︰﹋﹕﹙﹚！（），：？～]+'
-    post = re.sub(r1,'，',post)
+    r1 = '[-a-zA-Z0-9\s./:：︰﹕;<=>?@，。?★、…⋯【】（）﹙﹚《》「」？“”‘’！[\\]^_`{|}~～﹋,’!"#$%&\'()*+]+'
+    post = re.sub(r1,'',post)
+
     # print()
     for text in jieba.cut(post):
         text = text.lower()
@@ -50,8 +51,9 @@ def makeImage(filename,text):
     wc.to_file(os.path.join(d,f"./static/images/wordcloud/{filename}.png"))
 
 if __name__ == "__main__":
-    # forums = [{'alias':'relationship'}]
+    # forums = [{'alias':'funny'}]
     forums = Dcard.fetch_forums()
+
     for forum in forums:
         try:
             posts = Dcard.fetch_posts(forum["alias"])
@@ -62,11 +64,12 @@ if __name__ == "__main__":
                     tmp += post["content"]
                 except Exception as e:
                     print(e)
-                time.sleep(0.5)
+                time.sleep(288) #一天更新15看板
             # print('。'.join(tmp).encode("utf8").decode("cp950", "ignore"))
             # break
             makeImage(forum["alias"],getFrequencyDictForText('。'.join(tmp)))
         except Exception as e:
             print(e)
+
 
 
