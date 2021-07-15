@@ -24,6 +24,9 @@ from django.contrib import staticfiles
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('tickets/', include("tickets.urls")),
+    # url(r'^insert/$', views.insert),   #新增資料
+    # url(r'^modify/$', views.modify),   #修改資料
+    # url(r'^delete/$', views.delete),   #刪除資料
 
 ]
 #設定靜態檔案路徑

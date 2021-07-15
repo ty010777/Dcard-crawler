@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .scrapers import Dcard
-
+from tickets.models import CrawledData
 
 def index(request):
 
@@ -16,6 +16,4 @@ def index(request):
         # print(context['tickets'])
 
     return render(request, "tickets/index.html", context)
-
-
 

@@ -1,11 +1,17 @@
 from django.contrib import admin
-from .models import Movie
+from .models import CrawledData #, Topic
 
 # Register your models here.
+# class CrawledDataInline(admin.StackedInline):
+#     model = Topic
+
+class CrawledAdmin(admin.ModelAdmin):
+    list_display = ('cTitle', 'cForumAlias', 'cCommentCount','cLikeCount','cExcerpt','link','img')
+    list_filter=('cTitle',)
+    search_fields=('cTitle',)
+    # inlines = [
+    #     CrawledDataInline,
+    # ]
 
 
-class MovieAdmin(admin.ModelAdmin):
-    list_display = ('title', 'genre', 'release_year')
-
-
-admin.site.register(Movie, MovieAdmin)
+admin.site.register(CrawledData, CrawledAdmin)
