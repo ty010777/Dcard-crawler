@@ -4,12 +4,14 @@ from django.db.models.fields import URLField
 
 
 class CrawledData(models.Model):
-    cTitle = models.CharField(max_length=100 ,default='')
+    num = models.CharField(max_length=50,default='')
+    cTitle = models.CharField(max_length=100,default='')
     cForumAlias = models.CharField(max_length=20,default='')
+    cForumName = models.CharField(max_length=20,default='')
     cCommentCount = models.IntegerField(default=0)
     cLikeCount = models.IntegerField(default=0)
     cExcerpt = models.TextField(max_length=100,default='')
-    link = models.URLField(max_length=200,default=KeyError)
+    link = models.URLField(max_length=200,default='')
     img = models.URLField(default='https://i.imgur.com/Ewmac29.jpg')
 
 # class Topic(models.Model):

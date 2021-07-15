@@ -6,8 +6,8 @@ from .models import CrawledData #, Topic
 #     model = Topic
 
 class CrawledAdmin(admin.ModelAdmin):
-    list_display = ('cTitle', 'cForumAlias', 'cCommentCount','cLikeCount','cExcerpt','link','img')
-    list_filter=('cTitle',)
+    list_display = ('num','cTitle', 'cForumAlias','cForumName', 'cCommentCount','cLikeCount','cExcerpt','link','img')
+    list_filter=('num',)
     search_fields=('cTitle',)
     # inlines = [
     #     CrawledDataInline,

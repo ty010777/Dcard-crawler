@@ -43,7 +43,7 @@ class Dcard:
 
         # https://www.dcard.tw/service/api/v2/posts/236038749
         url = f'https://www.dcard.tw/service/api/v2/posts/{postId}'
-        print(url)
+        # print(url)
         post = requests.get(url).json()    # 回傳結果
         # print(type(post))
         post['img'] = (post['mediaMeta'][0]['url'] if len(post['mediaMeta']) else 'https://i.imgur.com/Ewmac29.jpg')

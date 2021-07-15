@@ -21,15 +21,17 @@
         {% csrf_token %}
         <div class="form-row">
             <div class="form-group col-11">
-                <input class="form-control" name="kanban_name" placeholder="請輸入看版名稱">
+                標題：{{ dataFilter.form.cTitle}}
+
             </div>
             <div class="form-group col-1">
                 <input class="btn btn-dark" type="submit" value="查詢">
                 <br />
             </div>
-
         </div>
     </form>
+
+
     <input type="button" class="crawlerPicture" id = "b1" onclick="displaycrawler()" value="今日文字雲">
 
     <p><img src="/static/images/wordcloud/pet.png"
@@ -47,14 +49,14 @@
             </tr>
         </thead>
         <tbody>
-            {% for ticket in tickets %}
+            {% for ticket in dataFilter.qs %}
             <tr>
                 <td>
-                    <b><a href="{{ ticket.link }}" target="_blank">{{ ticket.title }}</a></b>
+                    <b><a href="{{ ticket.link }}" target="_blank">{{ ticket.cTitle }}</a></b>
                 </td>
-                <td>{{ticket.forumAlias}}</td>
-                <td>{{ ticket.commentCount }}</td>
-                <td>{{ ticket.likeCount }}</td>
+                <td>{{ticket.cForumName}}</td>
+                <td>{{ ticket.cCommentCount }}</td>
+                <td>{{ ticket.cLikeCount }}</td>
                 <td>{{ ticket.topics }}</td>
 
                 <td><img src={{ ticket.img }} style="width:100px; heigh:80px;" /></td>
@@ -62,10 +64,9 @@
             </tr>
 
             {% endfor %}
-
-
         </tbody>
     </table>
+    {{ tickets }}
     <div class="bubbles">
         <img src = "../../static/images/pictures/bubble.png"/>
         <img src = "../../static/images/pictures/bubble.png"/>
