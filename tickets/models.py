@@ -11,6 +11,7 @@ class CrawledData(models.Model):
     cCommentCount = models.IntegerField(default=0)
     cLikeCount = models.IntegerField(default=0)
     cExcerpt = models.TextField(max_length=100,default='')
+    cTag = models.CharField(max_length=100,default='')
     link = models.URLField(max_length=200,default='')
     img = models.URLField(default='https://i.imgur.com/Ewmac29.jpg')
 

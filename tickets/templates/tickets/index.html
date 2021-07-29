@@ -22,6 +22,8 @@
         <div class="form-row">
             <div class="form-group col-11">
                 標題：{{ dataFilter.form.cTitle}}
+                看板：{{ dataFilter.form.cForumName}}
+                標籤：{{ dataFilter.form.cTag}}
 
             </div>
             <div class="form-group col-1">
@@ -31,6 +33,17 @@
         </div>
     </form>
 
+    <form action="insert/" method="Post">
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="form-group col-11">
+                <input class="form-control" name="kanban_name" placeholder="insert看板名稱">
+            </div>
+            <div class="form-group col-1">
+                <input class="btn btn-dark" type="submit" value="填入資料庫">
+            </div>
+        </div>
+    </form>
 
     <input type="button" class="crawlerPicture" id = "b1" onclick="displaycrawler()" value="今日文字雲">
 
@@ -57,7 +70,7 @@
                 <td>{{ticket.cForumName}}</td>
                 <td>{{ ticket.cCommentCount }}</td>
                 <td>{{ ticket.cLikeCount }}</td>
-                <td>{{ ticket.topics }}</td>
+                <td>{{ ticket.cTag }}</td>
 
                 <td><img src={{ ticket.img }} style="width:100px; heigh:80px;" /></td>
 

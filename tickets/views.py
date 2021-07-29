@@ -4,7 +4,6 @@ from tickets.models import CrawledData
 from .filter import DataFilter
 def index(request):
 
-
     datas = CrawledData.objects.all()
 
     dataFilter = DataFilter(queryset=datas)
@@ -17,38 +16,39 @@ def index(request):
     }
 
     return render(request, 'tickets/index.html', context)
-    #insert
-    # forums = Dcard.fetch_forums()
-    # toalias = {forum['name'] : forum['alias'] for forum in forums}
-    # alias = toalias.get(request.POST.get("kanban_name"))
 
-    # context = {}
-    # if alias:
-    #     context['tickets'] = Dcard.fetch_posts(alias)
-    #     # print(context['tickets'])
-    #     for ticket in context['tickets']:
-    #         try:
-    #             if(CrawledData.objects.get(num = ticket['id'])):
-    #                 continue
-    #         except:
-    #             pass
-    #         unit = CrawledData.objects.create(
-    #             num = ticket['id'],
-    #             cTitle=ticket['title'],
-    #             cForumAlias=ticket['forumAlias'],
-    #             cForumName = ticket['forumName']
-    #             cCommentCount=ticket['commentCount'],
-    #             cLikeCount=ticket['likeCount'],
-    #             cExcerpt = ticket['excerpt'],
-    #             link=ticket['link'],
-    #             img=ticket['img']
-    #             )
+def insert(request):
+    forums = Dcard.fetch_forums()
+    toalias = {forum['name'] : forum['alias'] for forum in forums}
+    alias = toalias.get(request.POST.get("kanban_name"))
 
-    #         unit.save()
+    context = {}
+    if alias:
+        context['tickets'] = Dcard.fetch_posts(alias)
+        # print(context['tickets'])
+        for ticket in context['tickets']:
+            try:
+                if(CrawledData.objects.get(num = ticket['id'])):
+                    continue
+            except:
+                pass
+            unit = CrawledData.objects.create(
+                num = ticket['id'],
+                cTitle=ticket['title'],
+                cForumAlias=ticket['forumAlias'],
+                cForumName = ticket['forumName'],
+                cCommentCount=ticket['commentCount'],
+                cLikeCount=ticket['likeCount'],
+                cExcerpt = ticket['excerpt'],
+                cTag = ticket['topics'],
+                link=ticket['link'],
+                img=ticket['img']
 
-    # return render(request, "tickets/index.html", context)
+                )
 
+            unit.save()
 
+        return render(request, 'tickets/insert.html')
 
 # def listall(request):
 #     tickets = CrawledData.objects.all().order_by('cLikeCount')
