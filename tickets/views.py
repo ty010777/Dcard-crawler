@@ -2,19 +2,32 @@ from django.shortcuts import render
 from .scrapers import Dcard
 from tickets.models import CrawledData
 from .filter import DataFilter
+from django.core.paginator import Paginator,InvalidPage,EmptyPage,PageNotAnInteger
+
 def index(request):
 
-    datas = CrawledData.objects.all()
+    # datas = CrawledData.objects.all()
+    # datas=getPage(request,datas)
 
-    dataFilter = DataFilter(queryset=datas)
+    # dataFilter = DataFilter(queryset=datas)
+    context = {}
+    dataFilter_list = DataFilter(
+                        request.POST,
+                        queryset=CrawledData.objects.all()
+                )
 
-    if request.method == "POST":
-        dataFilter = DataFilter(request.POST, queryset=datas)
+    context['dataFilter'] = dataFilter_list
 
-    context = {
-        'dataFilter': dataFilter
-    }
+    paginator = Paginator(dataFilter_list.qs,5)
+    try:
+        page_number = request.GET.get('p') #這裡設定頁數 ('page',n)= 第n頁
+        DataPage = paginator.get_page(page_number)
+    except EmptyPage as e:
+        DataPage = paginator.page(1)
+    except PageNotAnInteger:
+        DataPage = paginator.page(1)
 
+    context['DataPage'] = DataPage
     return render(request, 'tickets/index.html', context)
 
 def insert(request):
@@ -50,7 +63,4 @@ def insert(request):
 
         return render(request, 'tickets/insert.html')
 
-# def listall(request):
-#     tickets = CrawledData.objects.all().order_by('cLikeCount')
-#     #讀取資料表, 依 id 遞增排序(欄位前加入負號-id代表遞減排序)
-#     return render(request, "listall.html", locals())
+

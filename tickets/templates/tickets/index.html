@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
-
+{% comment %} {% load tickets_extras %}  {% endcomment %}
+{% comment %} 8/5日 問題點 {% endcomment %}
 {% block content %}
 
 <link rel="stylesheet" href="../../static/css/styles.css">
@@ -24,7 +25,6 @@
                 標題：{{ dataFilter.form.cTitle}}
                 看板：{{ dataFilter.form.cForumName}}
                 標籤：{{ dataFilter.form.cTag}}
-
             </div>
             <div class="form-group col-1">
                 <input class="btn btn-dark" type="submit" value="查詢">
@@ -62,7 +62,8 @@
             </tr>
         </thead>
         <tbody>
-            {% for ticket in dataFilter.qs %}
+
+            {% for ticket in DataPage %}
             <tr>
                 <td>
                     <b><a href="{{ ticket.link }}" target="_blank">{{ ticket.cTitle }}</a></b>
@@ -79,7 +80,23 @@
             {% endfor %}
         </tbody>
     </table>
-    {{ tickets }}
+
+
+<div class="pagination">
+      <span class="step-links">
+        {% if DataPage.has_previous %}
+            <a href="?p={{ DataPage.previous_page_number }}">上一頁</a>
+        {% endif %}
+          <span class="current">
+            Page {{ DataPage.number }} of {{ DataPage.paginator.num_pages }}.
+          </span>
+          {% if DataPage.has_next %}
+              <a href="?p={{ DataPage.next_page_number }}">下一頁</a>
+          {% endif %}
+      </span>
+
+</div>
+    {% comment %} {{ dataFilter.qs }} {% endcomment %}
     <div class="bubbles">
         <img src = "../../static/images/pictures/bubble.png"/>
         <img src = "../../static/images/pictures/bubble.png"/>
