@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
-{% comment %} {% load tickets_extras %}  {% endcomment %}
-{% comment %} 8/5日 問題點 {% endcomment %}
+{% load my_templatetags %}
 {% block content %}
 
 <link rel="stylesheet" href="../../static/css/styles.css">
@@ -18,7 +17,7 @@
 </head>
 
 <body>
-    <form action="" method="Post">
+    <form action="" method="GET">
         {% csrf_token %}
         <div class="form-row">
             <div class="form-group col-11">
@@ -47,17 +46,27 @@
 
     <input type="button" class="crawlerPicture" id = "b1" onclick="displaycrawler()" value="今日文字雲">
 
-    <p><img src="/static/images/wordcloud/pet.png"
-            id="crawlerImg" class = "crawlerImg"alt ="爬蟲圖片"></p>
+    <p><img src="/static/images/wordcloud/relationship.png"
+        id="crawlerImg" class = "crawlerImg"alt ="爬蟲圖片">
+        <img src="/static/images/wordcloud/mood.png"
+        id="crawlerImg" class = "crawlerImg"alt ="爬蟲圖片">
+        <img src="/static/images/wordcloud/trending.png"
+        id="crawlerImg" class = "crawlerImg"alt ="爬蟲圖片">
+        <img src="/static/images/wordcloud/funny.png"
+        id="crawlerImg" class = "crawlerImg"alt ="爬蟲圖片">
+        <img src="/static/images/wordcloud/girl.png"
+        id="crawlerImg" class = "crawlerImg"alt ="爬蟲圖片">
+    </p>
     <table class="table table-hover">
 
         <thead>
-            <tr>
+            <tr >
                 <th>標題</th>
                 <th>所屬看版</th>
                 <th>按讚數</th>
                 <th>留言數</th>
                 <th>標籤</th>
+                <th>情緒分析<th>
                 <th>縮圖</th>
             </tr>
         </thead>
@@ -72,7 +81,7 @@
                 <td>{{ ticket.cCommentCount }}</td>
                 <td>{{ ticket.cLikeCount }}</td>
                 <td>{{ ticket.cTag }}</td>
-
+                <td>{{ticket.mood}}</td>
                 <td><img src={{ ticket.img }} style="width:100px; heigh:80px;" /></td>
 
             </tr>
@@ -85,17 +94,25 @@
 <div class="pagination">
       <span class="step-links">
         {% if DataPage.has_previous %}
-            <a href="?p={{ DataPage.previous_page_number }}">上一頁</a>
+            <a href="{% relative_url DataPage.previous_page_number 'page' request.GET.urlencode %}">上一頁</a>
         {% endif %}
           <span class="current">
             Page {{ DataPage.number }} of {{ DataPage.paginator.num_pages }}.
           </span>
           {% if DataPage.has_next %}
-              <a href="?p={{ DataPage.next_page_number }}">下一頁</a>
+
+              <a href="{% relative_url DataPage.next_page_number 'page' request.GET.urlencode %}">下一頁</a>
           {% endif %}
       </span>
 
 </div>
+<ul class="pagination">
+  {% for i in DataPage.paginator.page_range %}
+    <li>
+      <a href="{% relative_url i 'page' request.GET.urlencode %}">{{ i }}</a><a>&ensp;</a>
+    </li>
+  {% endfor %}
+</ul>
     {% comment %} {{ dataFilter.qs }} {% endcomment %}
     <div class="bubbles">
         <img src = "../../static/images/pictures/bubble.png"/>

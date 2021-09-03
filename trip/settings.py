@@ -40,8 +40,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_filters',
     'tickets.apps.TicketsConfig',
+    'rest_framework',
 ]
-
+REST_FRAMEWORK = {
+    # 分页后端
+    # 方式一：PageNumberPagination
+    'DEFAULT_PAGINATION_CLASS':  'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 5 # 后端定义默认每页数目
+}
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -67,7 +73,11 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media',
 
-            ],
+            ],'libraries':{
+            'my_templatetag': 'tickets.templatetags.my_templatetags',
+
+            }
+
         },
     },
 ]

@@ -10,13 +10,16 @@ class CrawledData(models.Model):
     cForumName = models.CharField(max_length=20,default='')
     cCommentCount = models.IntegerField(default=0)
     cLikeCount = models.IntegerField(default=0)
-    cExcerpt = models.TextField(max_length=100,default='')
+    cExcerpt = models.TextField(max_length=20,default='')
+    cContent = models.TextField(max_length=800,default='')
     cTag = models.CharField(max_length=100,default='')
+    mood=models.CharField(max_length=20,default='')
     link = models.URLField(max_length=200,default='')
     img = models.URLField(default='https://i.imgur.com/Ewmac29.jpg')
 
-# class Topic(models.Model):
-#     tags = models.CharField(max_length=20)
-#     CrawledData = models.ForeignKey(CrawledData, on_delete=models.CASCADE ,related_name='topic',default='')
+    class Meta:
+        ordering = ['-cLikeCount']
 
-    # 'title','forumAlias', 'commentCount', 'topics', 'link', 'likeCount', 'img','excerpt','content'
+
+# python manage.py makemigrations
+# python manage.py migrate
