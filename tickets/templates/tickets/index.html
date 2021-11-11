@@ -5,14 +5,47 @@
 <link rel="stylesheet" href="../../static/css/styles.css">
 <head>
     <script>
-    function displaycrawler(){
-        if(document.getElementById("crawlerImg").style.display == "none"){
-            document.getElementById("crawlerImg").style.display="block";
-        }else{
-            document.getElementById("crawlerImg").style.display="none";
-        }
+        window.onload = function () {
+            let prev = document.getElementById("prev");
+            let next = document.getElementById("next");
+            let img = document.getElementsByTagName("img")[0];
+            let info = document.getElementById("info");
+            //建立一個數組儲存照片的路徑
+            let imgArr = ["relationship.png", "trending.png", "mood.png", "girl.png", "funny.png"];
+            let index = 0;
+            let imgName = ["感情","時事","心情","女孩","有趣"]
+            info.innerText = "一共有" + imgArr.length + "個看板，現在是" +  imgName[index] + "版";
+            prev.onclick = function () {
+                index--;
+                prev.style.backgroundColor="#ff4c31";
+                if (index < 0) {
+                    index = imgArr.length - 1;
+                }
+                document.getElementById("kanban").src = "/static/images/wordcloud/"+imgArr[index];
+                info.innerText = "一共有" + imgArr.length + "個看板，現在是" + imgName[index] + "版";
+            };
 
+            next.onclick = function () {
+                index++;
+                next.style.backgroundColor="#ff4c31";
+                if (index > imgArr.length - 1) {
+                    index = 0;
+                }
+                document.getElementById("kanban").src = "/static/images/wordcloud/"+imgArr[index];
+                info.innerText = "一共有" + imgArr.length + "個看板，現在是" +  imgName[index] + "版";
+            };
+
+        };
+        function reP(){
+            var ele = document.getElementById("oImg");
+	        if (ele.style.display == 'block'){
+                ele.style.display = "none";
+            }
+            else{
+                ele.style.display ='block'
+            }
     }
+
     </script>
 </head>
 
@@ -44,11 +77,34 @@
         </div>
     </form>
 
-    <input type="button" class="crawlerPicture" id = "b1" onclick="displaycrawler()" value="今日文字雲">
+    <form action="MakeOneCloud/" method="GET">
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="form-group col-11">
+                想要製作的關鍵字:{{ dataFilter.form.cTitle}}
+            </div>
+            <div class="form-group col-1">
 
-    <p><img src="/static/images/wordcloud/relationship.png"
-        id="crawlerImg" class = "crawlerImg"alt ="爬蟲圖片">
-    </p>
+                <input class="btn btn-dark" type="submit" value="生成文字雲" >
+            </div>
+        </div>
+    </form>
+
+	<INPUT TYPE="button" value='點擊查看搜尋文字雲' onclick="reP()">
+    <img src="/static/images/wordcloud/Search.png" id="oImg" style='display:none' width="800px" hight="600px">
+    <br>
+    <br>
+
+
+    <div class="btn btn-white">
+
+        <img id = 'kanban' src="/static/images/wordcloud/relationship.png" style="width:60%">
+        </br>
+        <button id="prev" style="background-color: #FFF;">上一張</button>
+        <button id="next" style="background-color: #FFF;">下一張</button>
+        </br>
+        <p id="info"></p>
+    </div>
     <table class="table table-hover">
 
         <thead>
@@ -70,12 +126,11 @@
                     <b><a href="{{ ticket.link }}" target="_blank">{{ ticket.cTitle }}</a></b>
                 </td>
                 <td>{{ticket.cForumName}}</td>
-                <td>{{ ticket.cCommentCount }}</td>
                 <td>{{ ticket.cLikeCount }}</td>
+                <td>{{ ticket.cCommentCount }}</td>
                 <td>{{ ticket.cTag }}</td>
                 <td>{{ticket.mood}}</td>
                 <td><img src={{ ticket.img }} style="width:100px; heigh:80px;" /></td>
-
             </tr>
 
             {% endfor %}

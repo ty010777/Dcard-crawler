@@ -3,6 +3,7 @@
 from wordcloud import WordCloud  #用於製作文字雲，要去安裝套件
 import jieba # 用於句子切割，要去安裝套件
 import multidict
+import matplotlib.pyplot as plt
 import os
 import re
 import time
@@ -49,28 +50,3 @@ def makeImage(filename,text):
     )
     wc.generate_from_frequencies(text)
     wc.to_file(os.path.join(d,f"./static/images/wordcloud/{filename}.png"))
-
-if __name__ == "__main__":
-   pass
-    # # forums = [{'alias':'funny'}]
-    # forums = Dcard.fetch_forums()
-
-    # for forum in forums:
-    #     try:
-    #         posts = Dcard.fetch_posts(forum["alias"])
-    #         tmp = []
-    #         for post in posts:
-    #             try:
-    #                 post = Dcard.fetch_post(post["id"])
-    #                 tmp += post["content"]
-    #             except Exception as e:
-    #                 print(e)
-    #             time.sleep(288) #一天更新15看板
-    #         # print('。'.join(tmp).encode("utf8").decode("cp950", "ignore"))
-    #         # break
-    #         makeImage(forum["alias"],getFrequencyDictForText('。'.join(tmp)))
-    #     except Exception as e:
-    #         print(e)
-
-
-

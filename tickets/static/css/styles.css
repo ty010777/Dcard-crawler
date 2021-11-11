@@ -107,3 +107,12 @@ b{
     width:60px;
     animation-delay: 10s;
 }
+
+.button{
+    outline: 0;
+    border: 0;
+    padding: 1em 3.5em;
+    cursor: pointer;
+    color: #fff;
+    background-color: #ffb74d;
+}

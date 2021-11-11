@@ -1,3 +1,4 @@
+from django.db.models import query
 from django.shortcuts import render
 import requests
 from .scrapers import Dcard
@@ -5,9 +6,9 @@ from tickets.models import CrawledData
 from .filter import DataFilter
 from .serializers import TicketsSerializer
 from django.core.paginator import Paginator,InvalidPage,EmptyPage,PageNotAnInteger
-from rest_framework import viewsets,filters,pagination
-
+from rest_framework import views, viewsets,filters,pagination
 from rest_framework.pagination import PageNumberPagination
+from tickets.WordCloud import getFrequencyDictForText,makeImage
 
 def index(request):
     context = {}
@@ -30,7 +31,25 @@ def index(request):
         DataPage = paginator.page(1)
 
     context['DataPage'] = DataPage
+
     return render(request, 'tickets/index.html', context)
+
+def Make_one_cloud(request):
+    # 下次想嘗試用以前objects.filter的方式來擷取資料庫篩選
+    #在製作成文字雲 阿 記得做跳出視窗的功能。
+    temp =""
+    dataFilter_list = DataFilter(
+                        request.GET,
+                        queryset=CrawledData.objects.all()
+                )
+    paginator = Paginator(dataFilter_list.qs,10000)
+    DataPage = paginator.get_page(1)
+    for ticket in DataPage:
+        temp += ticket.cContent
+
+
+    makeImage("Search",getFrequencyDictForText('。'.join(temp)))
+    return render(request, 'tickets/insert.html')
 
 
 def insert(request):

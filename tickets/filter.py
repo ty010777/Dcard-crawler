@@ -16,7 +16,9 @@ class DataFilter(django_filters.FilterSet):
     cTag = django_filters.CharFilter(
         lookup_expr='icontains',
         widget=forms.TextInput())
-
+    cContent = django_filters.CharFilter(
+        lookup_expr='icontains',
+        widget=forms.TextInput())
     class Meta:
         model = CrawledData
-        fields = ['cTitle', 'cForumName','cTag']
+        fields = ['cTitle', 'cForumName','cTag','cContent']
